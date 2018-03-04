@@ -32,12 +32,10 @@ class Exchange implements \ArrayAccess, \IteratorAggregate
 	/** @var Currency\Property[] */
 	private $tempRates;
 
-
 	public function __construct(Caching\ICache $cache)
 	{
 		$this->cache = $cache;
 	}
-
 
 	/** @return Currency\Property */
 	public function getDefault()
@@ -48,7 +46,6 @@ class Exchange implements \ArrayAccess, \IteratorAggregate
 		return $this->default;
 	}
 
-
 	/** @return Currency\Property */
 	public function getOutput()
 	{
@@ -58,7 +55,6 @@ class Exchange implements \ArrayAccess, \IteratorAggregate
 		return $this->output;
 	}
 
-
 	/**
 	 * Set default "from" currency.
 	 * @param string $code
@@ -67,7 +63,6 @@ class Exchange implements \ArrayAccess, \IteratorAggregate
 	{
 		$this->default = $this->offsetGet($code);
 	}
-
 
 	/**
 	 * @param Driver\ADriver|NULL $driver
@@ -89,7 +84,6 @@ class Exchange implements \ArrayAccess, \IteratorAggregate
 		return $this;
 	}
 
-
 	/**
 	 * Set currency "to".
 	 * @param string $code
@@ -99,7 +93,6 @@ class Exchange implements \ArrayAccess, \IteratorAggregate
 	{
 		return $this->output = $this->offsetGet($code);
 	}
-
 
 	/**
 	 * Transfer number by exchange rate.
@@ -112,7 +105,6 @@ class Exchange implements \ArrayAccess, \IteratorAggregate
 	{
 		return $this->transfer($price, $from, $to)[0];
 	}
-
 
 	/**
 	 * @param int|float $price
@@ -138,7 +130,6 @@ class Exchange implements \ArrayAccess, \IteratorAggregate
 		return [$price, $to];
 	}
 
-
 	/**
 	 * Add history rate for rating
 	 * @param string $code
@@ -152,7 +143,6 @@ class Exchange implements \ArrayAccess, \IteratorAggregate
 		return $this;
 	}
 
-
 	/**
 	 * Remove history rating
 	 * @param string $code
@@ -164,7 +154,6 @@ class Exchange implements \ArrayAccess, \IteratorAggregate
 		unset($this->tempRates[$property->code]);
 		return $this;
 	}
-
 
 	/**
 	 * Load currency property.
@@ -180,30 +169,25 @@ class Exchange implements \ArrayAccess, \IteratorAggregate
 		throw new UnknownCurrencyException('Undefined currency code: "' . $index . '".');
 	}
 
-
 	public function offsetExists($offset)
 	{
 		return $this->getListRates()->offsetExists(strtoupper($offset));
 	}
-
 
 	public function offsetSet($offset, $value)
 	{
 		return $this->getListRates()->offsetSet($offset, $value);
 	}
 
-
 	public function offsetUnset($offset)
 	{
 		return $this->getListRates()->offsetUnset($offset);
 	}
 
-
 	public function getIterator()
 	{
 		return $this->getListRates();
 	}
-
 
 	/**
 	 * @return Currency\ListRates

@@ -2,9 +2,9 @@
 
 namespace h4kuna\Exchange\Driver\Ecb;
 
-use DateTime,
-	GuzzleHttp,
-	h4kuna\Exchange;
+use DateTime;
+use GuzzleHttp;
+use h4kuna\Exchange;
 
 /**
  * @author Petr Poupě <pupe.dupe@gmail.com>
@@ -19,7 +19,6 @@ class Day extends Exchange\Driver\ADriver
 	 * @var const
 	 */
 	const URL_DAY = 'http://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml';
-
 
 	/**
 	 * Load data from remote source
@@ -41,7 +40,6 @@ class Day extends Exchange\Driver\ADriver
 		return $xml->Cube->Cube->Cube;
 	}
 
-
 	/**
 	 * @param string $row
 	 * @return Property|NULL
@@ -51,10 +49,9 @@ class Day extends Exchange\Driver\ADriver
 		return new Exchange\Currency\Property([
 			'code' => $row['currency'],
 			'home' => $row['rate'],
-			'foreign' => 1
+			'foreign' => 1,
 		]);
 	}
-
 
 	/**
 	 * @param string $url

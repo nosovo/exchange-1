@@ -2,9 +2,9 @@
 
 namespace h4kuna\Exchange\Driver\Cnb;
 
-use DateTime,
-	GuzzleHttp,
-	h4kuna\Exchange;
+use DateTime;
+use GuzzleHttp;
+use h4kuna\Exchange;
 
 class Day extends Exchange\Driver\ADriver
 {
@@ -15,7 +15,6 @@ class Day extends Exchange\Driver\ADriver
 	const
 		URL_DAY = 'http://www.cnb.cz/cs/financni_trhy/devizovy_trh/kurzy_devizoveho_trhu/denni_kurz.txt',
 		URL_DAY_OTHER = 'http://www.cnb.cz/cs/financni_trhy/devizovy_trh/kurzy_ostatnich_men/kurzy.txt';
-
 
 	/**
 	 * Load data from remote source.
@@ -35,7 +34,6 @@ class Day extends Exchange\Driver\ADriver
 		return $list;
 	}
 
-
 	/**
 	 * @param string $row
 	 * @return Property|NULL
@@ -51,7 +49,6 @@ class Day extends Exchange\Driver\ADriver
 			'home' => $currency[4],
 		]);
 	}
-
 
 	private function createUrl($url, DateTime $date = null)
 	{

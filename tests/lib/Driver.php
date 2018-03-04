@@ -17,21 +17,20 @@ class Driver extends \h4kuna\Exchange\Driver\ADriver
 			[
 				'home' => $date ? 26 : 25,
 				'foreign' => 1,
-				'code' => 'EUR'
+				'code' => 'EUR',
 			],
 			[
 				'home' => $date ? 19 : 20,
 				'foreign' => 1,
-				'code' => 'USD'
+				'code' => 'USD',
 			],
 			[
 				'home' => 1,
 				'foreign' => 1,
-				'code' => 'CZK'
+				'code' => 'CZK',
 			],
 		];
 	}
-
 
 	protected function createProperty($row)
 	{

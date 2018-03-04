@@ -2,9 +2,9 @@
 
 namespace h4kuna\Exchange\Caching;
 
-use h4kuna\Exchange\Currency,
-	h4kuna\Exchange\Driver,
-	Nette\Utils;
+use h4kuna\Exchange\Currency;
+use h4kuna\Exchange\Driver;
+use Nette\Utils;
 
 class Cache implements ICache
 {
@@ -26,12 +26,10 @@ class Cache implements ICache
 	 */
 	private $refresh = '15:00';
 
-
 	public function __construct($temp)
 	{
 		$this->temp = $temp;
 	}
-
 
 	public function loadListRate(Driver\ADriver $driver, \DateTime $date = null)
 	{
@@ -42,13 +40,11 @@ class Cache implements ICache
 		return $this->listRates[$file->getPathname()] = $this->createListRate($driver, $file, $date);
 	}
 
-
 	public function flushCache(Driver\ADriver $driver, \DateTime $date = null)
 	{
 		$file = $this->createFileInfo($driver, $date);
 		$file->isFile() && unlink($file->getPathname());
 	}
-
 
 	/**
 	 * Invalid by cron.
@@ -62,7 +58,6 @@ class Cache implements ICache
 		$this->saveCurrencies($driver, $file, $date);
 	}
 
-
 	/**
 	 * @param array $allowedCurrencies
 	 * @return static
@@ -73,7 +68,6 @@ class Cache implements ICache
 		return $this;
 	}
 
-
 	/**
 	 * @param string $hour
 	 * @return static
@@ -83,7 +77,6 @@ class Cache implements ICache
 		$this->refresh = (string) $hour;
 		return $this;
 	}
-
 
 	private function saveCurrencies(Driver\ADriver $driver, \SplFileInfo $file, \DateTime $date = null)
 	{
@@ -96,7 +89,6 @@ class Cache implements ICache
 
 		return $listRates;
 	}
-
 
 	private function createListRate(Driver\ADriver $driver, \SplFileInfo $file, \DateTime $date = null)
 	{
@@ -115,7 +107,6 @@ class Cache implements ICache
 		return unserialize(file_get_contents($file->getPathname()));
 	}
 
-
 	/**
 	 * @param \SplFileInfo $file
 	 * @return bool
@@ -124,7 +115,6 @@ class Cache implements ICache
 	{
 		return !$file->isFile() || (self::isFileCurrent($file) && $file->getMTime() < time());
 	}
-
 
 	/** @return int */
 	private function getRefresh()
@@ -138,13 +128,11 @@ class Cache implements ICache
 		return $this->refresh;
 	}
 
-
 	private function createFileInfo(Driver\ADriver $driver, \DateTime $date = null)
 	{
 		$filename = $date === null ? self::FILE_CURRENT : $date->format('Y-m-d');
 		return new \SplFileInfo($this->temp . DIRECTORY_SEPARATOR . $driver->getName() . DIRECTORY_SEPARATOR . $filename);
 	}
-
 
 	private static function isFileCurrent(\SplFileInfo $file)
 	{

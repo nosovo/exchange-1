@@ -2,8 +2,8 @@
 
 namespace h4kuna\Exchange\Currency;
 
-use h4kuna\Exchange,
-	h4kuna\Number;
+use h4kuna\Exchange;
+use h4kuna\Number;
 
 class Formats
 {
@@ -20,24 +20,21 @@ class Formats
 	/** @var Number\UnitFormatState */
 	private $default;
 
-
 	public function __construct(Number\NumberFormatFactory $numberFormatFactory)
 	{
 		$this->numberFormatFactory = $numberFormatFactory;
 	}
 
-
 	public function setDefaultFormat($setup)
 	{
 		if (is_array($setup)) {
 			$setup = $this->numberFormatFactory->createUnit($setup);
-		} elseif (!$setup instanceof Number\UnitFormatState) {
+		} else if (!$setup instanceof Number\UnitFormatState) {
 			throw new Exchange\InvalidArgumentException('$setup must be array or ' . Number\UnitFormatState::class);
 		}
 
 		$this->default = $setup;
 	}
-
 
 	public function addFormat($code, array $setup)
 	{
@@ -46,12 +43,11 @@ class Formats
 		unset($this->formats[$code]);
 	}
 
-
 	public function getFormat($code)
 	{
 		if (isset($this->formats[$code])) {
 			return $this->formats[$code];
-		} elseif (isset($this->rawFormats[$code])) {
+		} else if (isset($this->rawFormats[$code])) {
 			if (isset($this->rawFormats[$code]['unit'])) {
 				$format = $this->numberFormatFactory->createUnitPersistent(null, $this->rawFormats[$code]);
 			} else {
@@ -64,7 +60,6 @@ class Formats
 		}
 		return $this->formats[$code];
 	}
-
 
 	private function getDefaultFormat()
 	{

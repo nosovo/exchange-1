@@ -2,8 +2,8 @@
 
 namespace h4kuna\Exchange\Http;
 
-use h4kuna\Exchange,
-	Nette\Http;
+use h4kuna\Exchange;
+use Nette\Http;
 
 class CookieManager
 {
@@ -17,14 +17,12 @@ class CookieManager
 	/** @var string */
 	private $cookie = ['currency', null, '+14 days'];
 
-
 	public function __construct(Exchange\Exchange $exchange)
 	{
 		$this->response = new Http\Response();
 		$this->exchange = $exchange;
 		$this->initCurrency();
 	}
-
 
 	/**
 	 * @see Http\Response::setCookie()
@@ -38,10 +36,9 @@ class CookieManager
 			$path,
 			$domain,
 			$secure,
-			$httpOnly
+			$httpOnly,
 		];
 	}
-
 
 	public function setCurrency($code)
 	{
@@ -53,7 +50,6 @@ class CookieManager
 		$this->cookie[1] = $property->code;
 		$this->response->setCookie(...$this->cookie);
 	}
-
 
 	private function initCurrency()
 	{
@@ -72,7 +68,6 @@ class CookieManager
 
 		$this->exchange->setOutput($property->code);
 	}
-
 
 	private function checkCode($code)
 	{

@@ -5,7 +5,7 @@ namespace h4kuna\Exchange;
 final class Utils
 {
 
-	private function __construct() { }
+	private function __construct() {}
 
 
 	/**
