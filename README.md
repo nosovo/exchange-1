@@ -9,6 +9,9 @@ Exchange
 Exchange is PHP script works with currencies. You can convert price, format add VAT or only render exchange rates. 
 
 # Changelog
+## v5.1
+Same like v5.0 but support php7.1+. 
+
 ## v5.0
 Dependency on Nette framework was removed, If you want, follow [this extension](//github.com/h4kuna/exchange-nette). Minimal php is 5.5+. Api is changed, not compatible with older version.
 

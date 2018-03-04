@@ -4,7 +4,7 @@ namespace h4kuna\Exchange;
 
 abstract class ExchangeException extends \Exception {}
 
-class DriverDoesNotSupport extends ExchangeException {}
+class DriverDoesNotSupport extends \RuntimeException {}
 
 class InvalidArgumentException extends \InvalidArgumentException {}
 

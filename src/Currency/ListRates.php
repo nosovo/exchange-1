@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace h4kuna\Exchange\Currency;
 
@@ -7,13 +7,13 @@ use h4kuna\Exchange;
 class ListRates implements \ArrayAccess, \Iterator
 {
 
-	/** @var \DateTime */
+	/** @var \DateTimeInterface */
 	private $date;
 
 	/** @var Property[] */
 	private $currencies = [];
 
-	public function __construct(\DateTime $date)
+	public function __construct(\DateTimeInterface $date)
 	{
 		$this->date = $date;
 	}
@@ -26,12 +26,12 @@ class ListRates implements \ArrayAccess, \Iterator
 	/**
 	 * @return Property[]
 	 */
-	public function getCurrencies()
+	public function getCurrencies(): array
 	{
 		return $this->currencies;
 	}
 
-	public function getFirst()
+	public function getFirst(): Property
 	{
 		if ($this->currencies === []) {
 			throw new Exchange\EmptyExchangeRateException();
@@ -40,20 +40,17 @@ class ListRates implements \ArrayAccess, \Iterator
 		return current($this->currencies);
 	}
 
-	/**
-	 * @return \DateTime
-	 */
-	public function getDate()
+	public function getDate(): \DateTimeInterface
 	{
 		return $this->date;
 	}
 
-	public function offsetExists($offset)
+	public function offsetExists($offset): bool
 	{
 		return isset($this->currencies[$offset]);
 	}
 
-	public function offsetGet($offset)
+	public function offsetGet($offset): Property
 	{
 		return $this->currencies[$offset];
 	}
@@ -68,7 +65,7 @@ class ListRates implements \ArrayAccess, \Iterator
 		throw new Exchange\FrozenMethodException;
 	}
 
-	public function current()
+	public function current(): Property
 	{
 		return current($this->currencies);
 	}
@@ -78,12 +75,12 @@ class ListRates implements \ArrayAccess, \Iterator
 		next($this->currencies);
 	}
 
-	public function key()
+	public function key(): string
 	{
 		return key($this->currencies);
 	}
 
-	public function valid()
+	public function valid(): bool
 	{
 		return isset($this->currencies[$this->key()]);
 	}

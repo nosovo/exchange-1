@@ -2,7 +2,6 @@
 
 namespace h4kuna\Exchange\Driver;
 
-use DateTime;
 use h4kuna\Exchange;
 
 /**
@@ -11,16 +10,13 @@ use h4kuna\Exchange;
 abstract class ADriver
 {
 
-	/** @var \DateTime */
+	/** @var \DateTimeInterface */
 	private $date;
 
 	/**
 	 * Download data from remote source and save.
-	 * @param DateTime $date
-	 * @param array $allowedCurrencies
-	 * @return Exchange\Currency\ListRates
 	 */
-	public function download(DateTime $date = null, array $allowedCurrencies = [])
+	public function download(\DateTimeInterface $date = null, array $allowedCurrencies = []): Exchange\Currency\ListRates
 	{
 		$allowedCurrencies = array_flip($allowedCurrencies);
 		$source = $this->loadFromSource($date);
@@ -40,36 +36,30 @@ abstract class ADriver
 		return $currencies;
 	}
 
-	protected function setDate($format, $value)
+	protected function setDate(string $format, $value)
 	{
-		$this->date = DateTime::createFromFormat($format, $value);
+		$this->date = \DateTime::createFromFormat($format, $value);
 		$this->date->setTime(0, 0, 0);
 	}
 
-	public function getName()
+	public function getName(): string
 	{
 		return strtolower(str_replace('\\', '.', static::class));
 	}
 
-	/**
-	 * @return DateTime
-	 */
-	public function getDate()
+	public function getDate(): \DateTimeInterface
 	{
 		return $this->date;
 	}
 
 	/**
-	 * Load data for iterator.
-	 * @param DateTime|NULL $date
-	 * @return array
+	 * Load data from source for iterator.
 	 */
-	abstract protected function loadFromSource(DateTime $date = null);
+	abstract protected function loadFromSource(\DateTimeInterface $date = null): iterable;
 
 	/**
 	 * Modify data before save to cache.
-	 * @return Exchange\Currency\Property|NULL
 	 */
-	abstract protected function createProperty($row);
+	abstract protected function createProperty($row): ?Exchange\Currency\Property;
 
 }

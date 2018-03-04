@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace h4kuna\Exchange\Driver\Cnb;
 
@@ -12,19 +12,18 @@ class Day extends Exchange\Driver\ADriver
 	/**
 	 * Url where download rating
 	 */
-	const
-		URL_DAY = 'http://www.cnb.cz/cs/financni_trhy/devizovy_trh/kurzy_devizoveho_trhu/denni_kurz.txt',
-		URL_DAY_OTHER = 'http://www.cnb.cz/cs/financni_trhy/devizovy_trh/kurzy_ostatnich_men/kurzy.txt';
+	private const URL_DAY = 'http://www.cnb.cz/cs/financni_trhy/devizovy_trh/kurzy_devizoveho_trhu/denni_kurz.txt';
+	private const URL_DAY_OTHER = 'http://www.cnb.cz/cs/financni_trhy/devizovy_trh/kurzy_ostatnich_men/kurzy.txt';
 
 	/**
 	 * Load data from remote source.
-	 * @param DateTime $date
-	 * @return array
+	 * @param \DateTimeInterface|null $date
+	 * @return string[]
 	 */
-	protected function loadFromSource(DateTime $date = null)
+	protected function loadFromSource(\DateTimeInterface $date = null): iterable
 	{
 		$request = new GuzzleHttp\Client();
-		$data = $request->request('GET', $this->createUrl(self::URL_DAY, $date))->getBody();
+		$data = $request->request('GET', $this->createUrl(self::URL_DAY, $date))->getBody()->getContents();
 		$list = explode("\n", Exchange\Utils::stroke2point($data));
 		$list[1] = 'Česká Republika|koruna|1|CZK|1';
 
@@ -36,9 +35,9 @@ class Day extends Exchange\Driver\ADriver
 
 	/**
 	 * @param string $row
-	 * @return Property|NULL
+	 * @return Property
 	 */
-	protected function createProperty($row)
+	protected function createProperty($row): ?Exchange\Currency\Property
 	{
 		$currency = explode('|', $row);
 		return new Property([
@@ -50,7 +49,7 @@ class Day extends Exchange\Driver\ADriver
 		]);
 	}
 
-	private function createUrl($url, DateTime $date = null)
+	private function createUrl(string $url, \DateTimeInterface $date = null): string
 	{
 		if ($date === null) {
 			return $url;

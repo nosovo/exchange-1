@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace h4kuna\Exchange\Currency;
 
@@ -25,7 +25,10 @@ class Formats
 		$this->numberFormatFactory = $numberFormatFactory;
 	}
 
-	public function setDefaultFormat($setup)
+	/**
+	 * @param Number\UnitFormatState[] $setup
+	 */
+	public function setDefaultFormat(array $setup): void
 	{
 		if (is_array($setup)) {
 			$setup = $this->numberFormatFactory->createUnit($setup);
@@ -36,20 +39,20 @@ class Formats
 		$this->default = $setup;
 	}
 
-	public function addFormat($code, array $setup)
+	public function addFormat(string $code, array $setup): void
 	{
 		$code = strtoupper($code);
 		$this->rawFormats[$code] = $setup;
 		unset($this->formats[$code]);
 	}
 
-	public function getFormat($code)
+	public function getFormat(string $code)
 	{
 		if (isset($this->formats[$code])) {
 			return $this->formats[$code];
 		} else if (isset($this->rawFormats[$code])) {
 			if (isset($this->rawFormats[$code]['unit'])) {
-				$format = $this->numberFormatFactory->createUnitPersistent(null, $this->rawFormats[$code]);
+				$format = $this->numberFormatFactory->createUnitPersistent('', $this->rawFormats[$code]);
 			} else {
 				$format = $this->numberFormatFactory->createUnit($this->rawFormats[$code]);
 			}

@@ -2,7 +2,6 @@
 
 namespace h4kuna\Exchange\Driver\Ecb;
 
-use DateTime;
 use GuzzleHttp;
 use h4kuna\Exchange;
 
@@ -12,20 +11,9 @@ use h4kuna\Exchange;
 class Day extends Exchange\Driver\ADriver
 {
 
-	private $source;
-
-	/**
-	 * Url where download rating
-	 * @var const
-	 */
 	const URL_DAY = 'http://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml';
 
-	/**
-	 * Load data from remote source
-	 * @param DateTime $date
-	 * @return array
-	 */
-	protected function loadFromSource(DateTime $date = null)
+	protected function loadFromSource(\DateTimeInterface $date = null): iterable
 	{
 		$request = new GuzzleHttp\Client;
 		$data = $request->request('GET', $this->createUrlDay(self::URL_DAY, $date))->getBody();
@@ -40,11 +28,7 @@ class Day extends Exchange\Driver\ADriver
 		return $xml->Cube->Cube->Cube;
 	}
 
-	/**
-	 * @param string $row
-	 * @return Property|NULL
-	 */
-	protected function createProperty($row)
+	protected function createProperty($row): ?Exchange\Currency\Property
 	{
 		return new Exchange\Currency\Property([
 			'code' => $row['currency'],
@@ -53,13 +37,7 @@ class Day extends Exchange\Driver\ADriver
 		]);
 	}
 
-	/**
-	 * @param string $url
-	 * @param DateTime $date
-	 * @return string
-	 * @throws Exchange\DriverDoesNotSupport
-	 */
-	private function createUrlDay($url, DateTime $date = null)
+	private function createUrlDay(string $url, \DateTimeInterface $date = null): string
 	{
 		if ($date) {
 			throw new Exchange\DriverDoesNotSupport('Driver does not support history.');

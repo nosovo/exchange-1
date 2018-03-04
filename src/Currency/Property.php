@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace h4kuna\Exchange\Currency;
 
@@ -22,7 +22,7 @@ class Property extends \h4kuna\DataType\Immutable\Messenger
 
 	public function __toString()
 	{
-		return (string) $this->code;
+		return $this->code;
 	}
 
 }

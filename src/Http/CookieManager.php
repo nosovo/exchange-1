@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace h4kuna\Exchange\Http;
 
@@ -14,7 +14,7 @@ class CookieManager
 	/** @var Http\Response */
 	private $response;
 
-	/** @var string */
+	/** @var array */
 	private $cookie = ['currency', null, '+14 days'];
 
 	public function __construct(Exchange\Exchange $exchange)
@@ -40,7 +40,7 @@ class CookieManager
 		];
 	}
 
-	public function setCurrency($code)
+	public function setCurrency(string $code)
 	{
 		$property = $this->checkCode($code);
 		if ($property === null) {
@@ -69,7 +69,7 @@ class CookieManager
 		$this->exchange->setOutput($property->code);
 	}
 
-	private function checkCode($code)
+	private function checkCode(string $code): ?Exchange\Currency\Property
 	{
 		try {
 			return $this->exchange->offsetGet($code);

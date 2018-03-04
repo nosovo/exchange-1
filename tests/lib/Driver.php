@@ -2,10 +2,12 @@
 
 namespace h4kuna\Exchange\Test;
 
+use h4kuna\Exchange\Currency\Property;
+
 class Driver extends \h4kuna\Exchange\Driver\ADriver
 {
 
-	protected function loadFromSource(\DateTime $date = null)
+	protected function loadFromSource(\DateTimeInterface $date = null): iterable
 	{
 		$myDate = $date;
 		if ($myDate === null) {
@@ -32,9 +34,8 @@ class Driver extends \h4kuna\Exchange\Driver\ADriver
 		];
 	}
 
-	protected function createProperty($row)
+	protected function createProperty($row): ?Property
 	{
-		return new \h4kuna\Exchange\Currency\Property($row);
+		return new Property($row);
 	}
-
 }
